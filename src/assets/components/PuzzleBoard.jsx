@@ -2,44 +2,66 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import { useEffect } from "react";
 import PuzzleBrick from "./PuzzleBrick";
+import Modal from "./Modal";
+import shuffleBricks from "../../utils/shuffleBricks";
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 540px;
+  width: 100%;
+  margin-top: 2rem;
+  @media (max-width: 430px) {
+    margin-top: 1rem;
+  }
+`;
 
 const PuzzleContainer = styled.div`
   display: grid;
   grid-template-columns: ${(props) => `repeat(${props.columns}, 1fr)`};
   grid-template-rows: ${(props) => `repeat(${props.rows}, 1fr)`};
-  gap: 10px;
-  height: 500px;
-  width: 500px;
-  padding: 0.5rem;
-  background-color: #dcf5e8;
+  gap: 1rem;
+  width: 100%;
+  min-height: 450px;
+  max-width: 600px;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: #fff0bd;
+  @media (max-width: 430px) {
+    gap: 0.5rem;
+  }
 `;
 
 function PuzzleBoard({ rows, columns }) {
   const [bricks, setBricks] = useState([]);
   const [emptySlot, setEmptySlot] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
-  // Function to shuffle bricks array
-  const shuffleBricks = () => {
-    const newArray = [];
-    for (let i = 0; i < rows * columns - 1; i++) {
-      newArray.push(i + 1);
-    }
-    const shuffledBricks = newArray.sort(() => Math.random() - 0.5);
-    const emptySlotPosition = Math.floor(Math.random() * (rows * columns));
-    shuffledBricks.splice(emptySlotPosition, 0, null);
-    setBricks(shuffledBricks);
-    setEmptySlot(emptySlotPosition);
-    console.log("Bricks", shuffledBricks);
+  // Function to shuffle bricks
+  const shuffle = () => {
+    shuffleBricks(rows, columns, setBricks, setEmptySlot);
+    setShowModal(false);
   };
 
-  // Intial bricks array
+  // Initial bricks array
   useEffect(() => {
-    shuffleBricks();
+    shuffle();
   }, [rows, columns]);
 
-  // Check if brick position is correct, turn yellow if correct
+  // Check if brick position is correct, turns yellow if correct
   const isPositionCorrect = (index) => {
     return bricks[index] === index + 1;
+  };
+
+  // Check if the puzzle is solved
+  const isPuzzleSolved = () => {
+    for (let i = 0; i < bricks.length - 1; i++) {
+      if (bricks[i] !== i + 1) {
+        return false;
+      }
+    }
+    return true;
   };
 
   const moveBrick = (clickedIndex) => {
@@ -55,16 +77,8 @@ function PuzzleBoard({ rows, columns }) {
     if (clickedRow === emptyRow || clickedColumn === emptyColumn) {
       console.log("Clicked brick can be moved");
 
-      // Create a subarray of the row or column
+      // Same row
       if (clickedRow === emptyRow) {
-        // Same row
-        const rowIndex = clickedRow;
-        const rowArray = bricks.slice(
-          rowIndex * columns,
-          (rowIndex + 1) * columns
-        );
-        console.log("Row array:", rowArray);
-
         // Shift the numbers towards the empty slot
         if (clickedIndex < emptySlot) {
           for (let i = emptySlot; i > clickedIndex; i--) {
@@ -75,19 +89,17 @@ function PuzzleBoard({ rows, columns }) {
             bricks[i] = bricks[i + 1];
           }
         }
-
         // Place the clicked brick in the empty slot
         bricks[clickedIndex] = null;
         setEmptySlot(clickedIndex);
       } else {
         // Same column
         const colIndex = clickedColumn;
+        // Create a subarray of the column
         const colArray = [];
         for (let i = 0; i < rows; i++) {
           colArray.push(bricks[colIndex + i * columns]);
         }
-        console.log("Column array:", colArray);
-
         // Shift the numbers towards the empty slot
         if (clickedIndex < emptySlot) {
           for (let i = emptySlot; i > clickedIndex; i -= columns) {
@@ -98,33 +110,22 @@ function PuzzleBoard({ rows, columns }) {
             bricks[i] = bricks[i + columns];
           }
         }
-
         // Place the clicked brick in the empty slot
         bricks[clickedIndex] = null;
         setEmptySlot(clickedIndex);
-
-        console.log("New shuffledArray:", bricks);
-        console.log(clickedIndex);
       }
-
-      // Calculate direction of movement
-      const direction =
-        clickedRow === emptyRow
-          ? emptyColumn > clickedColumn
-            ? "right"
-            : "left"
-          : emptyRow > clickedRow
-          ? "down"
-          : "up";
-      console.log("direction", direction);
+      // If puzzle is solved, show the modal
+      if (isPuzzleSolved()) {
+        setShowModal(true);
+      }
     } else {
       console.log("Clicked brick can not be moved");
     }
   };
 
   return (
-    <>
-      <button onClick={shuffleBricks}>Shuffle</button>
+    <Wrapper>
+      <button onClick={shuffle}>Shuffle</button>
       <PuzzleContainer columns={columns} rows={rows}>
         {bricks.map((brick, index) => (
           <div key={index} onClick={() => moveBrick(index)}>
@@ -136,7 +137,13 @@ function PuzzleBoard({ rows, columns }) {
           </div>
         ))}
       </PuzzleContainer>
-    </>
+      {showModal && (
+        <Modal
+          message="You solved it! 🎉"
+          onClose={() => setShowModal(false)}
+        />
+      )}
+    </Wrapper>
   );
 }
 
