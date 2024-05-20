@@ -73,53 +73,24 @@ function PuzzleBoard({ rows, columns }) {
     const emptyRow = Math.floor(emptySlot / columns);
     const emptyColumn = emptySlot % columns;
 
-    // Check if clicked brick and empty slot are in the same row or column
     if (clickedRow === emptyRow || clickedColumn === emptyColumn) {
-      console.log("Clicked brick can be moved");
+      // Determine the direction of the shift
+      const direction = clickedRow === emptyRow ? 1 : columns;
+      const step = clickedIndex < emptySlot ? direction : -direction;
 
-      // Same row
-      if (clickedRow === emptyRow) {
-        // Shift the numbers towards the empty slot
-        if (clickedIndex < emptySlot) {
-          for (let i = emptySlot; i > clickedIndex; i--) {
-            bricks[i] = bricks[i - 1];
-          }
-        } else {
-          for (let i = emptySlot; i < clickedIndex; i++) {
-            bricks[i] = bricks[i + 1];
-          }
-        }
-        // Place the clicked brick in the empty slot
-        bricks[clickedIndex] = null;
-        setEmptySlot(clickedIndex);
-      } else {
-        // Same column
-        const colIndex = clickedColumn;
-        // Create a subarray of the column
-        const colArray = [];
-        for (let i = 0; i < rows; i++) {
-          colArray.push(bricks[colIndex + i * columns]);
-        }
-        // Shift the numbers towards the empty slot
-        if (clickedIndex < emptySlot) {
-          for (let i = emptySlot; i > clickedIndex; i -= columns) {
-            bricks[i] = bricks[i - columns];
-          }
-        } else {
-          for (let i = emptySlot; i < clickedIndex; i += columns) {
-            bricks[i] = bricks[i + columns];
-          }
-        }
-        // Place the clicked brick in the empty slot
-        bricks[clickedIndex] = null;
-        setEmptySlot(clickedIndex);
+      // Shift the numbers towards the empty slot
+      for (let i = emptySlot; i !== clickedIndex; i -= step) {
+        bricks[i] = bricks[i - step];
       }
+
+      // Place the clicked brick in the empty slot
+      bricks[clickedIndex] = null;
+      setEmptySlot(clickedIndex);
+
       // If puzzle is solved, show the modal
       if (isPuzzleSolved()) {
         setShowModal(true);
       }
-    } else {
-      console.log("Clicked brick can not be moved");
     }
   };
 

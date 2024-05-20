@@ -8,7 +8,6 @@ const shuffleBricks = (rows, columns, setBricks, setEmptySlot) => {
   shuffledBricks.splice(emptySlotPosition, 0, null);
   setBricks(shuffledBricks);
   setEmptySlot(emptySlotPosition);
-  console.log("Bricks", shuffledBricks);
 };
 
 export default shuffleBricks;

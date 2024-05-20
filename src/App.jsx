@@ -11,8 +11,8 @@ const PageWrapper = styled.div`
 `;
 
 function App() {
-  const [rows, setRows] = useState(4);
-  const [columns, setColumns] = useState(4);
+  const [rows, setRows] = useState(3); //Change number of rows
+  const [columns, setColumns] = useState(3); // Change number of columns
 
   return (
     <PageWrapper>
