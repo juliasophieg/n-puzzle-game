@@ -29,7 +29,7 @@ const Brick = styled.div`
         ? "#6bc79a"
         : "#ffbe57"};
     border: 1px solid ${(props) => (props.isEmptySlot ? "#fff0bd" : "black")};
-    font-weight: 800;
+    font-weight: 600;
     cursor: ${(props) => (props.isEmptySlot ? "unset" : "pointer")};
     transform: scale(1.02);
     transition: all 0.3s;
