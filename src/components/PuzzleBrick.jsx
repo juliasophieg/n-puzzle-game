@@ -5,6 +5,7 @@ const Brick = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
+  font-weight: 600;
   border-radius: 8px;
   background-color: ${(props) =>
     props.isEmptySlot
@@ -29,7 +30,7 @@ const Brick = styled.div`
         ? "#6bc79a"
         : "#ffbe57"};
     border: 1px solid ${(props) => (props.isEmptySlot ? "#fff0bd" : "black")};
-    font-weight: 600;
+    font-weight: 700;
     cursor: ${(props) => (props.isEmptySlot ? "unset" : "pointer")};
     transform: scale(1.02);
     transition: all 0.3s;
