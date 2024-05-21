@@ -2,8 +2,8 @@
 
 This is a classic 15-puzzle where the objective is to arrange all the bricks in numerical order, leaving the empty slot in the bottom right corner. You can adjust the number of rows and columns by modifying the code in the App.jsx file, located at the top of the App function:
 ```bash
-const [rows, setRows] = useState(2); //Change number of rows here
-const [columns, setColumns] = useState(2); // Change number of columns here
+const [rows, setRows] = useState(4); //Change number of rows here
+const [columns, setColumns] = useState(4); // Change number of columns here
 ```
 
 
