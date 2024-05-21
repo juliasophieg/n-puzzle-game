@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "@emotion/styled";
-import PuzzleBoard from "./assets/components/PuzzleBoard";
+import PuzzleBoard from "./components/PuzzleBoard";
 import "./App.css";
 
 const PageWrapper = styled.div`
@@ -11,8 +11,8 @@ const PageWrapper = styled.div`
 `;
 
 function App() {
-  const [rows, setRows] = useState(3); //Change number of rows
-  const [columns, setColumns] = useState(3); // Change number of columns
+  const [rows, setRows] = useState(4); //Change number of rows here
+  const [columns, setColumns] = useState(4); // Change number of columns here
 
   return (
     <PageWrapper>

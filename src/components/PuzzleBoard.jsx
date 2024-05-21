@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useEffect } from "react";
 import PuzzleBrick from "./PuzzleBrick";
 import Modal from "./Modal";
-import shuffleBricks from "../../utils/shuffleBricks";
+import shuffleBricks from "../utils/shuffleBricks";
+import moveBrick from "../utils/moveBrick";
 
 const Wrapper = styled.div`
   display: flex;
@@ -38,7 +39,7 @@ function PuzzleBoard({ rows, columns }) {
   const [emptySlot, setEmptySlot] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  // Function to shuffle bricks
+  // Wrapper function to shuffle bricks
   const shuffle = () => {
     shuffleBricks(rows, columns, setBricks, setEmptySlot);
     setShowModal(false);
@@ -49,7 +50,7 @@ function PuzzleBoard({ rows, columns }) {
     shuffle();
   }, [rows, columns]);
 
-  // Check if brick position is correct, turns yellow if correct
+  // Check if brick position is correct, turns green if correct
   const isPositionCorrect = (index) => {
     return bricks[index] === index + 1;
   };
@@ -64,34 +65,18 @@ function PuzzleBoard({ rows, columns }) {
     return true;
   };
 
-  const moveBrick = (clickedIndex) => {
-    // Calculate row and column of clicked brick
-    const clickedRow = Math.floor(clickedIndex / columns);
-    const clickedColumn = clickedIndex % columns;
-
-    // Calculate row and column of empty slot
-    const emptyRow = Math.floor(emptySlot / columns);
-    const emptyColumn = emptySlot % columns;
-
-    if (clickedRow === emptyRow || clickedColumn === emptyColumn) {
-      // Determine the direction of the shift
-      const direction = clickedRow === emptyRow ? 1 : columns;
-      const step = clickedIndex < emptySlot ? direction : -direction;
-
-      // Shift the numbers towards the empty slot
-      for (let i = emptySlot; i !== clickedIndex; i -= step) {
-        bricks[i] = bricks[i - step];
-      }
-
-      // Place the clicked brick in the empty slot
-      bricks[clickedIndex] = null;
-      setEmptySlot(clickedIndex);
-
-      // If puzzle is solved, show the modal
-      if (isPuzzleSolved()) {
-        setShowModal(true);
-      }
-    }
+  // Wrapper function to handle brick move
+  const handleMoveBrick = (clickedIndex) => {
+    moveBrick(
+      bricks,
+      setBricks,
+      emptySlot,
+      setEmptySlot,
+      clickedIndex,
+      columns,
+      isPuzzleSolved,
+      setShowModal
+    );
   };
 
   return (
@@ -99,7 +84,7 @@ function PuzzleBoard({ rows, columns }) {
       <button onClick={shuffle}>Shuffle</button>
       <PuzzleContainer columns={columns} rows={rows}>
         {bricks.map((brick, index) => (
-          <div key={index} onClick={() => moveBrick(index)}>
+          <div key={index} onClick={() => handleMoveBrick(index)}>
             <PuzzleBrick
               brick={brick}
               isEmptySlot={brick === null}

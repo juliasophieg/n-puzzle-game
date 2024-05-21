@@ -1,8 +1,7 @@
-// Modal.js
 import React from "react";
 import styled from "@emotion/styled";
 
-const ModalBackground = styled.div`
+const ModalWrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -26,12 +25,12 @@ const ModalContent = styled.div`
 
 function Modal({ message, onClose }) {
   return (
-    <ModalBackground onClick={onClose}>
-      <ModalContent onClick={(e) => e.stopPropagation()}>
+    <ModalWrapper onClick={onClose}>
+      <ModalContent>
         <h2>{message}</h2>
         <button onClick={onClose}>Close</button>
       </ModalContent>
-    </ModalBackground>
+    </ModalWrapper>
   );
 }
 
