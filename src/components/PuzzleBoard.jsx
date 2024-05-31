@@ -28,7 +28,7 @@ const PuzzleContainer = styled.div`
   max-width: 600px;
   padding: 1rem;
   border-radius: 10px;
-  background-color: #fff0bd;
+  background-color: var(--light-yellow);
   @media (max-width: 430px) {
     gap: 0.5rem;
   }

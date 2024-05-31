@@ -2,7 +2,14 @@
   font-family: "Open Sans", sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #222222;
+  color: var(--almost-black);
+
+  --light-yellow: #fff0bd;
+  --yellow: #ffd782;
+  --dark-yellow: #ffbe57;
+  --green: #8cd1af;
+  --dark-green: #6bc79a;
+  --almost-black: #222222;
 }
 
 * {

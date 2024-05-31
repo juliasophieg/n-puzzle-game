@@ -9,31 +9,34 @@ const Brick = styled.div`
   border-radius: 8px;
   background-color: ${(props) =>
     props.isEmptySlot
-      ? "#fff0bd"
+      ? "var(--light-yellow)"
       : props.correctPosition
-      ? "#8cd1af"
-      : "#ffd782"};
+      ? "var(--green)"
+      : "var(--yellow)"};
   border: 1px solid
     ${(props) =>
       props.isEmptySlot
-        ? "#fff0bd"
+        ? "var(--light-yellow)"
         : props.correctPosition
-        ? "#8cd1af"
-        : "#ffd782"};
+        ? "var(--green)"
+        : "var(--yellow)"};
   font-size: 1.5rem;
   cursor: pointer;
   &:hover {
     background-color: ${(props) =>
       props.isEmptySlot
-        ? "#fff0bd"
+        ? "var(--light-yellow)"
         : props.correctPosition
-        ? "#6bc79a"
-        : "#ffbe57"};
-    border: 1px solid ${(props) => (props.isEmptySlot ? "#fff0bd" : "black")};
+        ? "var(--dark-green)"
+        : "var(--dark-yellow)"};
+    border: 1px solid
+      ${(props) =>
+        props.isEmptySlot ? "var(--light-yellow)" : "var(--almost-black)"};
     font-weight: 700;
     cursor: ${(props) => (props.isEmptySlot ? "unset" : "pointer")};
-    transform: scale(1.02);
-    transition: all 0.3s;
+    transform: scale(1.03);
+    transition: transform 0.3s ease, background-color 0.3s ease,
+      font-weight 0.3s ease;
   }
   @media (max-width: 430px) {
     font-size: 1rem;
