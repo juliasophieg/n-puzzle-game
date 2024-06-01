@@ -4,8 +4,9 @@
   font-weight: 400;
   color: var(--almost-black);
 
-  --light-yellow: #fff0bd;
+  --light-yellow: #fff7df;
   --yellow: #ffd782;
+  --middle-yellow: #ffdb97;
   --dark-yellow: #ffbe57;
   --green: #8cd1af;
   --dark-green: #6bc79a;
@@ -37,7 +38,7 @@ h1 {
   font-size: 2.5rem;
   line-height: 1.1;
   text-align: center;
-  margin: 0;
+  margin: 1rem 0;
   @media (max-width: 430px) {
     font-size: 1.8rem;
   }

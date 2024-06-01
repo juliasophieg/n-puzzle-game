@@ -12,23 +12,18 @@ const Wrapper = styled.div`
   align-items: center;
   max-width: 540px;
   width: 100%;
-  margin-top: 2rem;
-  @media (max-width: 430px) {
-    margin-top: 1rem;
-  }
 `;
 
 const PuzzleContainer = styled.div`
   display: grid;
   grid-template-columns: ${(props) => `repeat(${props.columns}, 1fr)`};
   grid-template-rows: ${(props) => `repeat(${props.rows}, 1fr)`};
-  gap: 1rem;
+  gap: 0.5rem;
   width: 100%;
   min-height: 450px;
-  max-width: 600px;
-  padding: 1rem;
+  max-width: 450px;
+  padding: 0.5rem;
   border-radius: 10px;
-  background-color: var(--light-yellow);
   @media (max-width: 430px) {
     gap: 0.5rem;
   }
