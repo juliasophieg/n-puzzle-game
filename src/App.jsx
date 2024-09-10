@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "@emotion/styled";
 import PuzzleBoard from "./components/PuzzleBoard";
 import "./App.css";
+import RowsColumnsChanger from "./components/RowsColumnsChanger";
 
 const PageWrapper = styled.div`
   display: flex;
@@ -11,12 +12,27 @@ const PageWrapper = styled.div`
 `;
 
 function App() {
-  const [rows, setRows] = useState(4); //Change number of rows here
-  const [columns, setColumns] = useState(4); // Change number of columns here
+  const [rows, setRows] = useState(4);
+  const [columns, setColumns] = useState(4);
+
+  // Handlers to update rows and columns
+  const handleRowsChange = (newRows) => {
+    setRows(newRows);
+  };
+
+  const handleColumnsChange = (newColumns) => {
+    setColumns(newColumns);
+  };
 
   return (
     <PageWrapper>
       <h1>Sliding Puzzle Game</h1>
+      <RowsColumnsChanger
+        rows={rows}
+        columns={columns}
+        onRowsChange={handleRowsChange}
+        onColumnsChange={handleColumnsChange}
+      />
       <PuzzleBoard rows={rows} columns={columns} />
     </PageWrapper>
   );
